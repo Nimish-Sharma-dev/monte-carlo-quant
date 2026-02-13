@@ -1,0 +1,12 @@
+ticker: "AAPL"
+start_date: "2020-01-01"
+end_date: "2023-01-01"
+
+simulations: 10000
+time_steps: 252
+horizon_years: 1
+
+risk_free_rate: 0.05
+strike_price: 180
+
+confidence_level: 0.95
