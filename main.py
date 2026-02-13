@@ -77,11 +77,12 @@ def main():
 
 
     mc_pricer = MonteCarloPricer(
-        config["risk_free_rate"],
+        config["risk_free_rate"],      
         config["strike_price"]
-    )
+    ) 
 
-    mc_call = mc_pricer.price_call(terminal_prices, config["horizon_years"])
+    mc_results = mc_pricer.price_call(terminal_prices, config["horizon_years"])
+
 
     bs = BlackScholes(
         S0,
@@ -93,7 +94,9 @@ def main():
 
     bs_call = bs.call_price()
 
-    print(f"Monte Carlo Call Price: {mc_call}")
+    print(f"Monte Carlo Call Price: {mc_results['price']}")
+    print(f"Standard Error: {mc_results['std_error']}")
+    print(f"95% CI: [{mc_results['ci_lower']}, {mc_results['ci_upper']}]")
     print(f"Black-Scholes Call Price: {bs_call}")
     # Step 5: Visualization
     Plotter.plot_price_paths(paths_real, num_paths=100)
