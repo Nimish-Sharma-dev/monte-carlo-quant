@@ -1,29 +1,112 @@
-----Monte Carlo Quant Engine----<br>
-Overview:<br>
-    The Monte Carlo Quant Engine is a modular financial simulation system that models the future behavior of financial assets using stochastic processes. It estimates drift and volatility from historical market data, simulates thousands of possible future price paths using Geometric Brownian Motion, and analyzes the resulting distribution to measure risk and price derivatives. The system computes key quantitative metrics such as Value at Risk (VaR), Conditional Value at Risk (CVaR), expected returns, and portfolio loss distributions. It also prices European options via Monte Carlo simulation and validates results against the closed-form solution from the Black-Scholes model. With support for multi-asset correlated simulations, the project functions as a compact risk and derivatives research engine, demonstrating practical quantitative finance modeling, numerical methods, and structured software design.<br>
-Mathematical Foundation:<br>
-     GBM equation: St+1=St​e(μ−0.5σ2)Δt+σΔtZ<br>
-     VaR definition: VaRα=Percentile1−α​(Loss)<br>
-     Option payoff: max(ST​−K,0)<br>
-Features:<br>
-     GBM simulation<br>
-     Multi-asset correlated simulation<br>
-     VaR & CVaR<br>
-     Monte Carlo option pricing<br>
-     Black-Scholes validation<br>
-     Portfolio risk engine<br>
-     Unit tests<br>
-Installation:<br>
-    pip install -r requirements.txt<br>
-Example Usage:<br>
-    python main.py<br>
-Sample Outputs:<br>
-    Simulated paths<br>
-    Histogram<br>
-    VaR<br>
-    Option pricing comparison<br>
-Future Enhancements:<br>
-    Jump diffusion<br>
-    Stochastic volatility<br>
-    Variance reduction<br>
-    Greeks estimation<br>
+# Monte Carlo Quant Engine
+
+A modular Monte Carlo simulation engine for option pricing and risk analysis.
+
+## Overview
+
+This project implements:
+
+- Geometric Brownian Motion (GBM) simulation
+- European Call Option Pricing (Monte Carlo)
+- Black-Scholes analytical pricing
+- Variance Reduction (Control Variates)
+- Value at Risk (VaR)
+- Conditional Value at Risk (CVaR)
+- Confidence Interval estimation
+- Convergence diagnostics
+
+The system is structured in a modular research-oriented architecture.
+
+---
+
+## Project Structure
+
+
+monte-carlo-quant/
+│
+├── main.py # Orchestrator
+├── config.py # Model parameters
+├── simulation.py # GBM path generation
+├── pricing.py # MC + Black-Scholes pricing
+├── risk.py # VaR / CVaR calculations
+└── README.md
+
+
+---
+
+## Installation
+
+Create virtual environment:
+
+
+python -m venv venv
+
+
+Activate it:
+
+Windows:
+
+venv\Scripts\activate
+
+
+Mac/Linux:
+
+source venv/bin/activate
+
+
+Install dependencies:
+
+
+pip install numpy scipy pandas matplotlib yfinance
+
+
+---
+
+## Running the Program
+
+From project root:
+
+
+python main.py
+
+
+---
+
+## Output Example
+
+- Estimated μ and σ
+- Simulated path shape
+- VaR (95%)
+- CVaR
+- Monte Carlo Call Price
+- Standard Error
+- 95% Confidence Interval
+- Black-Scholes Price
+- Control Variate Price (if enabled)
+
+---
+
+## Methods Implemented
+
+### Monte Carlo Pricing
+Risk-neutral GBM simulation of terminal stock price.
+
+### Black-Scholes Benchmark
+Closed-form analytical solution.
+
+### Variance Reduction
+Control variates using discounted stock price.
+
+### Risk Metrics
+- VaR (95%)
+- CVaR (Expected Shortfall)
+
+---
+
+## Future Extensions
+
+- Antithetic Variates
+- Sobol Quasi-Monte Carlo
+- Greeks estimation
+- Multi-asset simulation
+- American option pricing (LSM)

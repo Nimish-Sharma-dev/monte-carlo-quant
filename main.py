@@ -9,6 +9,40 @@ from src.pricing.monte_carlo_pricer import MonteCarloPricer
 from src.pricing.black_scholes import BlackScholes
 from src.visualization.plotter import Plotter
 
+import numpy as np
+from scipy.stats import norm
+
+# Black-Scholes Call Formula
+def black_scholes_call(S0, K, r, sigma, T):
+    d1 = (np.log(S0 / K) + (r + 0.5 * sigma**2) * T) / (sigma * np.sqrt(T))
+    d2 = d1 - sigma * np.sqrt(T)
+    return S0 * norm.cdf(d1) - K * np.exp(-r * T) * norm.cdf(d2)
+
+def mc_call_control_variate(S0, K, r, sigma, T, n_sim=10000):
+
+    # Simulate terminal prices
+    Z = np.random.randn(n_sim)
+    ST = S0 * np.exp((r - 0.5 * sigma**2) * T + sigma * np.sqrt(T) * Z)
+
+    # Discounted payoff (X)
+    X = np.exp(-r * T) * np.maximum(ST - K, 0)
+
+    # Control variable (Y)
+    Y = np.exp(-r * T) * ST
+
+    # Known expectation of Y
+    EY = S0
+
+    # Optimal beta
+    beta = np.cov(X, Y)[0, 1] / np.var(Y)
+
+    # Control variate estimator
+    price_cv = np.mean(X + beta * (EY - Y))
+
+    # Standard error
+    std_error = np.std(X + beta * (EY - Y)) / np.sqrt(n_sim)
+
+    return price_cv, std_error
 
 # -----------------------------------
 # Load YAML Configuration
